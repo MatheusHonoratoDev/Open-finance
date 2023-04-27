@@ -16,7 +16,6 @@ function getApiData() {
 
           bank.endpoints = [];
 
-
           const card = document.createElement("div");
           card.classList.add("card");
 
@@ -114,7 +113,6 @@ function getApiData() {
                   "https://cdn-icons-png.flaticon.com/512/6928/6928929.png";
               };
             });
-            
         }
       } else {
         console.log("Nenhum dado encontrado.");
@@ -122,15 +120,12 @@ function getApiData() {
     });
 
   function insertDados() {
-    console.log("inicio insert dados");
 
-    const stringBanks = banks.map(bank => ({
-      registeredName: bank.registeredName || '',
-      endpoints: bank.endpoints ? bank.endpoints.join() : '',
-      logoSrc: bank.logoSrc || '',
+    const stringBanks = banks.map((bank) => ({
+      registeredName: bank.registeredName || "",
+      endpoints: bank.endpoints ? bank.endpoints.join() : "",
+      logoSrc: bank.logoSrc || "",
     }));
-
-    console.log(stringBanks)
 
     fetch("http://localhost:8800/insert", {
       method: "POST",
@@ -151,12 +146,16 @@ function getApiData() {
       })
       .catch((error) => {
         console.error(error);
-        showToast("error!");
       });
   }
+
   setTimeout(() => {
     insertDados();
-  }, 1000); }
+  }, 1000);
+
+  setInterval(insertDados, 60 * 60 * 1000);
+
+}
 
 getApiData();
 
