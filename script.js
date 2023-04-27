@@ -16,7 +16,6 @@ function getApiData() {
 
           bank.endpoints = [];
 
-          banks.push(bank);
 
           const card = document.createElement("div");
           card.classList.add("card");
@@ -24,6 +23,8 @@ function getApiData() {
           const registeredName = document.createElement("h3");
           registeredName.textContent = bank.registeredName;
           card.appendChild(registeredName);
+
+          banks.push(bank);
 
           const linhaHori = document.createElement("hr");
           card.appendChild(linhaHori);
@@ -41,7 +42,6 @@ function getApiData() {
 
           // Percorre todos authorisationServers
           for (let j = 0; j < authorisationServers.length; j++) {
-            console.log(`Card ${i} - Authorization ${j}`);
             let logoSrc = null;
             if (authorisationServers[j].CustomerFriendlyLogoUri) {
               logoSrc = authorisationServers[j].CustomerFriendlyLogoUri;
@@ -114,6 +114,7 @@ function getApiData() {
                   "https://cdn-icons-png.flaticon.com/512/6928/6928929.png";
               };
             });
+            
         }
       } else {
         console.log("Nenhum dado encontrado.");
@@ -122,11 +123,18 @@ function getApiData() {
 
   function insertDados() {
     console.log("inicio insert dados");
-    console.log(banks);
+
+    const stringBanks = banks.map(bank => ({
+      registeredName: bank.registeredName || '',
+      endpoints: bank.endpoints ? bank.endpoints.join() : '',
+      logoSrc: bank.logoSrc || '',
+    }));
+
+    console.log(stringBanks)
 
     fetch("http://localhost:8800/insert", {
       method: "POST",
-      body: JSON.stringify(banks),
+      body: JSON.stringify(stringBanks),
       headers: {
         "Content-Type": "application/json",
       },
@@ -146,9 +154,9 @@ function getApiData() {
         showToast("error!");
       });
   }
-
-  insertDados();
-}
+  setTimeout(() => {
+    insertDados();
+  }, 1000); }
 
 getApiData();
 
