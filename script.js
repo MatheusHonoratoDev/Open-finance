@@ -92,7 +92,7 @@ function getApiData() {
           `;
           let modalElement = document.createElement("div");
           modalElement.innerHTML = modal.trim();
-          
+
           card.appendChild(modalElement);
 
           let botao = document.createElement("button");
@@ -106,9 +106,14 @@ function getApiData() {
 
           cardsContainer.appendChild(card);
 
-          document.querySelectorAll(`#myModal-${i} img`).forEach(function(img){
-            img.onerror = function(){this.src='https://cdn-icons-png.flaticon.com/512/6928/6928929.png';};
-          })
+          document
+            .querySelectorAll(`#myModal-${i} img`)
+            .forEach(function (img) {
+              img.onerror = function () {
+                this.src =
+                  "https://cdn-icons-png.flaticon.com/512/6928/6928929.png";
+              };
+            });
         }
       } else {
         console.log("Nenhum dado encontrado.");
@@ -117,13 +122,11 @@ function getApiData() {
 
   function insertDados() {
     console.log("inicio insert dados");
-    console.log(banks)
-
-    const dados = { data: banks };
+    console.log(banks);
 
     fetch("http://localhost:8800/insert", {
       method: "POST",
-      body: JSON.stringify(dados),
+      body: JSON.stringify(banks),
       headers: {
         "Content-Type": "application/json",
       },
